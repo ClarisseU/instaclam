@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.contrib.auth.models import User
 
     
 class Profile(models.Model):
@@ -18,11 +18,11 @@ class Profile(models.Model):
 class Comments(models.Model):
     comment_cont = models.CharField(max_length=120)
     
-    def save_comment():
-        pass
+    def save_comment(self):
+        self.save
     
-    def update_comment():
-        pass
+    def update_comment(self):
+        self.update()
  
     
     
