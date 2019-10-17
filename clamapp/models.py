@@ -14,6 +14,8 @@ class Profile(models.Model):
     
     def delete_profile(self):
         self.delete()
+        
+       
     
 class Comments(models.Model):
     comment_cont = models.CharField(max_length=120)
@@ -47,6 +49,9 @@ class Image(models.Model):
     def update_caption(self):
         self.update()
     
+    @classmethod
+    def search(cls,id):
+        pass 
         
             
 
