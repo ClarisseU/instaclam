@@ -1,3 +1,11 @@
 from django.test import TestCase
+from .models import Image, Profile, Comments
 
-# Create your tests here.
+class ProfileTestClass(TestCase):
+    pass
+
+class CommentsTestClass(TestCase):
+    pass
+
+class ImageTestClass(TestCase):
+    pass
