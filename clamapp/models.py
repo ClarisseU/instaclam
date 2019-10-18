@@ -20,6 +20,10 @@ class Profile(models.Model):
     def delete_profile(self):
         self.delete()
         
+    @classmethod
+    def search(cls,username):
+        user = cls.objects.filter(user__user__icontains=username)
+        return user    
        
     
 class Comments(models.Model):
@@ -55,10 +59,7 @@ class Image(models.Model):
     def update_caption(self):
         self.update()
     
-    @classmethod
-    def search(cls,username):
-        user = cls.objects.filter(user__user__icontains=username)
-        return user
+  
         
             
 
