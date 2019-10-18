@@ -1,0 +1,5 @@
+{% block content %}
+<img src="{{profile.picture.url}}">
+<p>{{profile.bio}}</p>
+{%for i in images%}
+<img src="{{i.image.url}}"> {% endfor%} {% endblock%}
