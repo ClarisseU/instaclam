@@ -1,4 +1,4 @@
-{% block content %}
+{% extends 'all-app/base.html' %}{% block content %}
 <img src="{{profile.picture.url}}">
 <p>{{profile.bio}}</p>
 {%for i in images%}
