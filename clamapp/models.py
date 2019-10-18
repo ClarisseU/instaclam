@@ -1,10 +1,15 @@
 from django.db import models
 from django.contrib.auth.models import User
+from tinymce.models import HTMLField
 
     
 class Profile(models.Model):
     picture = models.ImageField(upload_to='picture/', null=True)
     bio = models.CharField(max_length=120)
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return str(self.bio)
     
     def save_profile(self):
         self.save()
@@ -30,12 +35,13 @@ class Comments(models.Model):
     
 class Image(models.Model):
     image = models.ImageField(upload_to='image/', null=True)
-    name = models.CharField(max_length= 60)
+    name = models.CharField(max_length= 60, null=True)
     caption = models.CharField(max_length=60, null=True)
-    likes = models.IntegerField()
+    likes = models.IntegerField(null=True)
     profile = models.ForeignKey(Profile, null=True)
     comments = models.ForeignKey(Comments, null=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
+    post = HTMLField()
     
     def __str__(self):
         return str(self.image)
@@ -50,8 +56,9 @@ class Image(models.Model):
         self.update()
     
     @classmethod
-    def search(cls,id):
-        pass 
+    def search(cls,username):
+        user = cls.objects.filter(user__user__icontains=username)
+        return user
         
             
 
