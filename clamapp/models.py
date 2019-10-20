@@ -21,8 +21,10 @@ class Profile(models.Model):
         self.delete()
         
     @classmethod
-    def search(cls,username):
-        username = cls.objects.filter(user__user__icontains=username)
+    def search(cls,search_term):
+        print(f'hello search term model {search_term}')
+
+        username = cls.objects.filter(user__username__icontains=search_term)
         return username   
         
  
@@ -66,6 +68,32 @@ class Comments(models.Model):
         self.update()
         
     def delete_comment(self):
-        self.delete()           
+        self.delete()       
+        
+        
+class Likes(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    post = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    like = models.CharField(max_length=20)   
+    
+    def save_like(self):
+        self.save()
+        
+    def delete_like(self):
+        self.delete()     
+        
+    def __str__(self):
+        return str(self.like) 
+    
+    @classmethod
+    def get_all_likes(cls):
+        '''
+        got this from https://stackoverflow.com/questions/15407985/django-like-button
+        '''
+        p = Profile.objects.all()
+        no_of_likes = p.like_set.all().count()
+        
+class Follow(models.Model):
+    pass                  
             
 
