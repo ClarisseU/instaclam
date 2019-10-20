@@ -22,28 +22,17 @@ class Profile(models.Model):
         
     @classmethod
     def search(cls,username):
-        user = cls.objects.filter(user__user__icontains=username)
-        return user    
-       
-    
-class Comments(models.Model):
-    comment_cont = models.CharField(max_length=120)
-    
-    def save_comment(self):
-        self.save
-    
-    def update_comment(self):
-        self.update()
+        username = cls.objects.filter(user__user__icontains=username)
+        return username   
+        
  
-    
-    
 class Image(models.Model):
     image = models.ImageField(upload_to='image/', null=True)
     name = models.CharField(max_length= 60, null=True)
     caption = models.CharField(max_length=60, null=True)
     likes = models.IntegerField(null=True)
     profile = models.ForeignKey(Profile, null=True)
-    comments = models.ForeignKey(Comments, null=True)
+    # comments = models.ForeignKey(Comments, null=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
     post = HTMLField()
     
@@ -59,7 +48,24 @@ class Image(models.Model):
     def update_caption(self):
         self.update()
     
+    @classmethod
+    def get_all_image(cls):
+        img = cls.objects.all().prefetch_related('comments_set')
+        return img
+    
   
+class Comments(models.Model):
+    comment_cont = models.CharField(max_length=120)
+    commented_by = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
+    commented_image = models.ForeignKey(Image, on_delete=models.CASCADE, null=True)
+    
+    def save_comment(self):
+        self.save
+    
+    def update_comment(self):
+        self.update()
         
+    def delete_comment(self):
+        self.delete()           
             
 
