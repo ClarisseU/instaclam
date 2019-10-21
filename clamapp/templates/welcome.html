@@ -6,33 +6,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <!-- <script>
-        function myFunction() {
-            var a;
-            document.getElementById(like).innerHTML = a++;
+    <style>
+        /* got this style from:https://stackoverflow.com/questions/39198975/how-can-i-make-image-fit-in-div-django */
+        
+        #img-post {
+            padding: 0;
+            display: block;
+            /* margin: 0 auto auto 0; */
+            height: 200px;
+            width: 200px;
+            max-height: 200px;
+            max-width: 200px;
         }
-    </script> -->
+    </style>
 </head>
 
 <body>
     {% block content %} {{block.super}}
     <div class="container">
-        <div class="row masonry-container">
+        <div class="row">
             {% for im in images %}
 
-            <div class="thumbnail">
+            <div class="thumbnail" style="background-image: white;">
                 <p>{{im.user}}</p>
-                <img class="img-responsive" src='{{im.image.url}}' height='520' width='450'>
+                <img class="img-responsive" id="img-post" src='{{im.image.url}}' height='520' width='450'>
 
                 <p>{{im.caption}}</p>
 
                 {% for com in im.comments_set.all %}
                 <p>{{com.comment_cont}}</p>
                 {% endfor %}
-                <a href="{%url 'comment' im.id%}" class="btn btn-primary">comment</a>
-                <!-- <div class="row">
-                <p>Posted {{image.pub_date|timesince}} by {{image.image.img_name}}</p>
-            </div> -->
+                <a href="{%url 'comment' im.id%}" class="btn btn-primary"><img src="https://cdn.shopify.com/s/files/1/0253/8605/7821/products/likes.png?v=1558700389" heigth="100px" width="80px"></a>
+
                 <p>{{im.likes}} </p>
                 <a href="{% url 'like' id=im.id %}" id="like" class="btn btn-success">Likes</a>
             </div>

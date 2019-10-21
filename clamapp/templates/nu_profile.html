@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Profile</title>
+    <!-- got the style from: https://codepen.io/GeorgePark/pen/VXrwOP -->
     <style>
         .visually-hidden {
             position: absolute !important;
@@ -113,6 +114,17 @@
             color: #fff;
             cursor: pointer;
         }
+        /* got this style from:https://stackoverflow.com/questions/39198975/how-can-i-make-image-fit-in-div-django */
+        
+        #img-post {
+            padding: 0;
+            display: block;
+            /* margin: 0 auto auto 0; */
+            height: 200px;
+            width: 200px;
+            max-height: 200px;
+            max-width: 200px;
+        }
     </style>
 </head>
 
@@ -130,22 +142,20 @@
             </div>
         </div>
     </div>
+    <div>
 
+    </div>
     <div class="container">
         <div class="row masonry-container">
-
-
             {%for i in image%}
             <div class="item col-md-4">
                 <div class="well">
-                    <div class="thumbnail">
-                        <img src="{{i.image.url}}" class="img-responsive">
+                    <div class="thumbnail" style="background-image:white">
+                        <img id="img-post" src="{{i.image.url}}" class="img-responsive">
                     </div>
                 </div>
             </div>
             {% endfor%}
-
-
         </div>
     </div>
 
