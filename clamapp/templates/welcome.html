@@ -1,26 +1,46 @@
-{%extends 'all-app/base.html'%} {% block content %} {{block.super}}
-<div class="container">
-    {% for im in images %}
+{%extends 'all-app/base.html'%}
+<!DOCTYPE html>
+<html lang="en">
 
-    <div class="row">
-        <p>{{im.user}}</p>
-        <img src='{{im.image.url}}'>
-    </div>
-    <div class="row">
-        <!-- <h1 class="text-center">{{im.name}}</h1> -->
-    </div>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script>
+        function myFunction() {
+            var a;
+            document.getElementById(like).innerHTML = a++;
+        }
+    </script>
+</head>
 
-    <div class="row">
-        <p>{{im.caption}}</p>
-    </div>
-    {% for com in im.comments_set.all %}
-    <p>{{com.comment_cont}}</p>
-    {% endfor %}
-    <a href="{%url 'comment' im.id%}" class="btn btn-primary">comment</a>
-    <!-- <div class="row">
-        <p>Posted {{image.pub_date|timesince}} by {{image.image.img_name}}</p>
-    </div> -->
-    {% endfor %}
-</div>
+<body>
+    {% block content %} {{block.super}}
+    <div class="container">
+        <div class="row masonry-container">
+            {% for im in images %}
 
-{% endblock %}
+            <div class="thumbnail">
+                <p>{{im.user}}</p>
+                <img class="img-responsive" src='{{im.image.url}}' height='520' width='450'>
+
+                <p>{{im.caption}}</p>
+
+                {% for com in im.comments_set.all %}
+                <p>{{com.comment_cont}}</p>
+                {% endfor %}
+                <a href="{%url 'comment' im.id%}" class="btn btn-primary">comment</a>
+                <!-- <div class="row">
+                <p>Posted {{image.pub_date|timesince}} by {{image.image.img_name}}</p>
+            </div> -->
+                <p>{{im.likes}}</p>
+                <a href="" onclick="myFunction()" id="like" class="btn btn-success">Likes</a>
+            </div>
+
+
+        </div>{% endfor %} </div>
+
+    {% endblock %}
+</body>
+
+</html>
