@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 import datetime as datetime
 from django.http import HttpResponse, Http404, HttpResponseRedirect
-from .models import Image,Profile,Comments
+from .models import Image,Profile,Comments, Follow
 from django.contrib.auth.decorators import login_required
 from .forms import NewPostForm,ProfileForm, commentForm
 
@@ -38,16 +38,18 @@ def new_post(request):
         form = NewPostForm()
     return render (request, 'new_post.html', {"form":form})
 
-# @login_required(login_url='/accounts/login')
-# def profile(request):
-#     current_user = request.user
-#     image = Image.objects.filter(user=current_user)
-#     profile = Profile.objects.filter(user=current_user).first()
-#     return render(request,'nu_profile.html',{"image":image,"profile":profile})
+@login_required(login_url='/accounts/login')
+def profile(request):
+    current_user = request.user
+    image = Image.objects.filter(user=current_user).all()
+    profile = Profile.objects.filter(user=current_user).first()
+    print(profile)
+    return render(request,'nu_profile.html',{"image":image,"profile":profile})
 
 @login_required(login_url='/accounts/login')    
 def nu_profile(request):
     current_user = request.user
+    form = None
     if request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES)
         if form.is_valid():
@@ -58,20 +60,14 @@ def nu_profile(request):
     else:
         form = ProfileForm()
     return render(request, 'profile.html', {"form":form}) 
-
-@login_required(login_url='/accounts/login')
-def profile(request):
-    current_user = request.user
-    image = Image.objects.filter(user=current_user).all()
-    profile = Profile.objects.filter(user=current_user).first()
-    return render(request,'nu_profile.html',{"image":image,"profile":profile})
  
 @login_required(login_url='/accounts/login/')
 def search(request):
    if 'user' in request.GET and request.GET["user"]:
        search_term = request.GET.get("user")
        searched_users = Profile.search(search_term)
-       print(searched_users)
+       print(f'hello search term {search_term}')
+       print(f'hello search username {searched_users}')
        message = f"{search_term}"
        return render(request, "search.html",{"message":message,"users": searched_users})
    else:
@@ -95,5 +91,5 @@ def comment(request, img_id):
             return redirect('welcome')
     else:
         form = commentForm()
-    return render(request, 'commentform.html', {'form': form, 'img_id':img_id})    
-                
+    return render(request, 'commentform.html', {'form': form, 'img_id':img_id})
+                         
