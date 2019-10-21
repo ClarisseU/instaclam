@@ -42,8 +42,8 @@ def new_post(request):
 def profile(request):
     current_user = request.user
     image = Image.objects.filter(user=current_user).all()
+    print(image)
     profile = Profile.objects.filter(user=current_user).first()
-    print(profile)
     return render(request,'nu_profile.html',{"image":image,"profile":profile})
 
 @login_required(login_url='/accounts/login')    
@@ -93,3 +93,11 @@ def comment(request, img_id):
         form = commentForm()
     return render(request, 'commentform.html', {'form': form, 'img_id':img_id})
                          
+@login_required(login_url='/accounts/login')
+def likes(request,id):
+    likes = 1
+    image = Image.objects.get(id=id)
+    image.likes = image.likes=+1
+    print(image.likes)
+    image.save()
+    return redirect("/")
