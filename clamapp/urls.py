@@ -15,6 +15,7 @@ urlpatterns = [
     url(r'^new/nuprofile', views.profile,name='profiles'),
     url(r'^search',views.search, name='search'),
     url(r'^new/comment/(\d+)/$',views.comment, name ='comment'),
+    url(r'^likes/(?P<id>\d+)',views.likes, name="like")
 ]
 if settings.DEBUG:
     urlpatterns+= static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)
