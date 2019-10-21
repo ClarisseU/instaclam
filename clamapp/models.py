@@ -32,7 +32,7 @@ class Image(models.Model):
     image = models.ImageField(upload_to='image/', null=True)
     name = models.CharField(max_length= 60, null=True)
     caption = models.CharField(max_length=60, null=True)
-    likes = models.IntegerField(null=True)
+    likes = models.IntegerField()
     profile = models.ForeignKey(Profile, null=True)
     # comments = models.ForeignKey(Comments, null=True)
     user = models.ForeignKey(User,on_delete=models.CASCADE)
@@ -70,30 +70,22 @@ class Comments(models.Model):
     def delete_comment(self):
         self.delete()       
         
-        
-class Likes(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    post = models.ForeignKey(Profile, on_delete=models.CASCADE, null=True)
-    like = models.CharField(max_length=20)   
+class Follow(models.Model):
+    user = models.ForeignKey(User, null=True)
+    followers = models.ForeignKey(Profile, related_name='following', null=True)
+    following = models.ForeignKey(Profile, related_name='followers', null=True) 
     
-    def save_like(self):
+    def save_follow(self):
         self.save()
-        
-    def delete_like(self):
-        self.delete()     
-        
-    def __str__(self):
-        return str(self.like) 
     
     @classmethod
-    def get_all_likes(cls):
-        '''
-        got this from https://stackoverflow.com/questions/15407985/django-like-button
-        '''
-        p = Profile.objects.all()
-        no_of_likes = p.like_set.all().count()
-        
-class Follow(models.Model):
-    pass                  
+    def get_followers(cls):
+        follower = cls.objects.all()
+        return follower
+    
+    @classmethod
+    def get_following(cls):
+        following = cls.objects.all()
+        return following     
             
 
