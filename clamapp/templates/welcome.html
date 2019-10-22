@@ -28,21 +28,20 @@
             {% for im in images %}
 
             <div class="thumbnail" style="background-image: white;">
-                <p>{{im.user}}</p>
+
+                <a href="{% url 'profiles'%}">{{im.user}}</p>
                 <img class="img-responsive" id="img-post" src='{{im.image.url}}' height='520' width='450'>
 
-                <p>{{im.caption}}</p>
+                <p><strong>{{im.likes}} likes</strong> </p>
+                <a href="{% url 'like' id=im.id %}" id="like" class="btn"><img src="http://www.i2symbol.com/force_download.php?file=images/symbols/love/white_heart_suit_u2661_icon_256x256.png" heigth="50px" width="60px"></a>
+
+                <p><strong>{{im.user}}</strong> {{im.caption}}</p>
 
                 {% for com in im.comments_set.all %}
                 <p>{{com.comment_cont}}</p>
                 {% endfor %}
-                <a href="{%url 'comment' im.id%}" class="btn btn-primary"><img src="https://cdn.shopify.com/s/files/1/0253/8605/7821/products/likes.png?v=1558700389" heigth="100px" width="80px"></a>
-
-                <p>{{im.likes}} </p>
-                <a href="{% url 'like' id=im.id %}" id="like" class="btn btn-success">Likes</a>
+                <a href="{%url 'comment' im.id%}" class="btn btn-primary">comment</a>
             </div>
-
-
         </div>{% endfor %} </div>
 
     {% endblock %}
