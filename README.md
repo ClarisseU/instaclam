@@ -5,6 +5,7 @@ Instaclam app is a web application clone of instagram, with all the functionalit
 <img src="/home/clarisse/Pictures/Screenshot from 2019-10-22 14-57-19.png">
 
 <img src="/home/clarisse/Pictures/Screenshot from 2019-10-22 14-59-59.png">
+
 ## SetUp and Installations
 you need to have a working network connection and you are able to use the application
 
